@@ -1,5 +1,6 @@
 import Ember from 'ember';
-
+//jshint camelcase:false
+//jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 export default Ember.Component.extend({
     classNames: ['text-editor'],
 
@@ -9,36 +10,36 @@ export default Ember.Component.extend({
         external_plugins: {
           image: '/ember-cli-tinymce/tinymce/plugins/image/plugin.min.js',
           link: '/ember-cli-tinymce/tinymce/plugins/link/plugin.min.js',
-          table: '/ember-cli-tinymce/tinymce/plugins/table/plugin.min.js'
+          table: '/ember-cli-tinymce/tinymce/plugins/table/plugin.min.js',
+          textcolor: '/ember-cli-tinymce/tinymce/plugins/textcolor/plugin.min.js',
+          colorpicker: '/ember-cli-tinymce/tinymce/plugins/colorpicker/plugin.min.js'
         },
-        menubar: false,
-        toolbar1: 'bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link table image'
-    },
+        menubar: true,
+        toolbar1: 'insertfile undo redo | styleselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link'
+      },
 
     didInsertElement: function() {
-        var component = this;
         var options = this.get('_options');
 
         Ember.merge(options, {
-          setup: function(editor) {
+          setup: (editor) => {
             // bind change event
-            component.set('editor', editor);
+            this.set('editor', editor);
             editor.on('change', function() {
-              component.set('value',
+              this.set('value',
                  editor.getContent());
             });
           }
         });
 
         this.$('textarea').tinymce(options);
-    },
+      },
 
-    valueChanged: Ember.computed('value',function () {
-        var controller = this;
-        tinymce.editors.filter(function (editor) {
-          return editor.id === controller.get('editor').id;
-        }).forEach(function (editor) {
-          editor.setContent(controller.get('value'));
+    valueChanged: Ember.computed('value', function() {
+        tinymce.editors.filter((editor) => {
+          return editor.id === this.get('editor').id;
+        }).forEach(function(editor) {
+          editor.setContent(this.get('value'));
         });
-    }),
-});
+      })
+  });
