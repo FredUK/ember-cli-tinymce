@@ -44,7 +44,7 @@ export default Ember.Component.extend({
             icon: false,
             classes: 'tinymce-extraButton',
             onclick: function() {
-              editor.insertContent(`&nbsp;{{${{button}}}}&nbsp;`);
+              editor.insertContent(`&nbsp;{{${button}}}&nbsp;`);
             }
           });
         });
