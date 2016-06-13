@@ -21,7 +21,7 @@ export default Ember.Component.extend({
       preview: '/ember-cli-tinymce/tinymce/plugins/preview/plugin.min.js'
     },
     menubar: true,
-    toolbar1: 'insertfile undo redo | styleselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code preview'
+    toolbar1: 'insertfile undo redo | styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code preview'
   },
 
   onInit: function() {
