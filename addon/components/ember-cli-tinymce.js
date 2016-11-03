@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['text-editor'],
 
   extraButtons: [],
-
+  conditionals: [],
   options: {},
 
   defaults: {
@@ -48,6 +48,18 @@ export default Ember.Component.extend({
             }
           });
         });
+
+        this.get('conditionals').forEach((button) => {
+          editor.addButton(button, {
+            text: button,
+            icon: false,
+            classes: 'tinymce-extraButton tinymec-extraButton--conditional',
+            onclick: function() {
+              editor.insertContent(`<p>[[${button}]]</p><p></p><p>[[\/${button}]]</p>`);
+            }
+          });
+        });
+
         this.set('editor', editor);
         editor.on('change', () => {
           this.set('value', editor.getContent());
