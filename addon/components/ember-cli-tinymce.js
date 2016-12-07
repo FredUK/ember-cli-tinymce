@@ -24,14 +24,7 @@ export default Ember.Component.extend({
     toolbar1: 'insertfile undo redo | styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code preview'
   },
 
-  onInit: function() {
-
-    Ember.run.schedule('afterRender', () => {
-      this.setup();
-    });
-  }.on('init'),
-
-  setup() {
+  setup: function() {
     let defaults = this.get('defaults');
     let extraOptions = this.get('options');
     let options = Ember.merge(defaults, extraOptions);
@@ -68,7 +61,7 @@ export default Ember.Component.extend({
     });
 
     this.$('textarea').tinymce(options);
-  },
+  }.on('didRender'),
 
   valueChanged: Ember.computed('value', function() {
     tinymce.editors.filter((editor) => {
