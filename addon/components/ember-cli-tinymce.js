@@ -57,10 +57,12 @@ export default Ember.Component.extend({
         editor.on('change', () => {
           this.set('value', editor.getContent());
         });
+
+        editor.on('init', () => this._updateLabels());
       }
     });
 
-    this.$('textarea').tinymce(options);
+    this.$('textarea').attr('aria-hidden', true).tinymce(options);
   }.on('didRender'),
 
   valueChanged: Ember.computed('value', function() {
@@ -69,5 +71,18 @@ export default Ember.Component.extend({
     }).forEach(function(editor) {
       editor.setContent(this.get('value'));
     });
-  })
+  }),
+
+  // This goes through tinyMce widget buttons (div) and sets its the aria-label value on the inner button
+  // to fix accessbility errors on WAVE tool
+  _updateLabels() {
+    try {
+      this.$('.mce-widget.mce-btn').each((i, div) => {
+        const ariaLabel = this.$(div).attr('aria-label');
+        this.$(div).find('button').attr('aria-label', ariaLabel);
+      });
+    } catch (error) {
+    //no-op
+    }
+  }
 });
